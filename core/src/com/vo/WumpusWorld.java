@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class WumpusWorld {
     //Anything less than 10 is black tile - fog of war
-    public static int  Ground = 0, Spider = 1 , Pit = 2, Wumpus = 3, Gold = 4;
-    public static int               Web = 11, Wind =12, Stink = 13, Glitter = 14;
+    public static int  Ground = 0, Spider = -1 , Pit = -2, Wumpus = -3, Gold = 14;
+    public static int               Web = -11, Wind = -12, Stink = -13, Glitter = 4;
     public static boolean texturePlace = false;
 
     boolean visible[][] = new boolean[10][10];
@@ -85,7 +85,7 @@ public class WumpusWorld {
                 world[t.getRow()][t.getCol()] = Ground;
             }
             else
-            world[t.getRow()][t.getCol()] = world[loc.getRow()][loc.getCol()] + 10;
+            world[t.getRow()][t.getCol()] = world[loc.getRow()][loc.getCol()]- 10;
             }
     }
     public static int convertLocToX(Location loc){
@@ -134,6 +134,17 @@ public class WumpusWorld {
             visible[loc.getRow()][loc.getCol()] = true;
         }
     }
+    public int getValue(Location loc){
+        return world[loc.getRow()][loc.getCol()];
+    }
+    public boolean isVisible(Location loc) {
+        if (isValid(loc)) {
+            return (visible[loc.getRow()][loc.getCol()]);
+        } else {
+            return false;
+        }
+    }
+
     public void draw(SpriteBatch spriteBatch){
         int xOffset = 20;
         for(int row=0; row < world.length; row++){

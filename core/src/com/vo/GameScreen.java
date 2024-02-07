@@ -114,14 +114,60 @@ public class GameScreen implements Screen {
 
         }
         public void AI1(){
-            ArrayList<Location> validLocation = dude.getPossibleMoves();
+            Location up = new Location(dude.getMyLoc().getRow()-1, dude.getMyLoc().getCol());
+            Location down = new Location(dude.getMyLoc().getRow()+1, dude.getMyLoc().getCol());
+            Location left = new Location(dude.getMyLoc().getRow(), dude.getMyLoc().getCol()-1);
+            Location right = new Location(dude.getMyLoc().getRow(), dude.getMyLoc().getCol()+1);
+            Location myLoc = dude.getMyLoc();
 
 
+            if(stack.size()==0){
+                dude.moveUp();
+            }
+            else {
+                if (wumpusWorld.isValid(up) && !wumpusWorld.isVisible(up)) {
+                    if (wumpusWorld.getValue(myLoc)<0){
+                        stack.pop();
+                        dude.setMyLoc(stack.peek());
+                        System.out.println("prevMove");
+                    }
+                    else{
+                        dude.moveUp();
+                    }
 
-
+                } else if (wumpusWorld.isValid(right) && !wumpusWorld.isVisible(right)) {
+                    System.out.println("right");
+                    if (wumpusWorld.getValue(myLoc)<0){
+                        stack.pop();
+                        dude.setMyLoc(stack.peek());
+                    }
+                    else {
+                        dude.moveRight();
+                    }
+                } else if (wumpusWorld.isValid(down) && !wumpusWorld.isVisible(down)) {
+                    System.out.println("down");
+                        if (wumpusWorld.getValue(myLoc)<0){
+                            stack.pop();
+                            dude.setMyLoc(stack.peek());
+                        }
+                        else {
+                            dude.moveDown();
+                        }
+                } else if (wumpusWorld.isValid(left) && !wumpusWorld.isVisible(left)) {
+                    System.out.println("left");
+                            if (wumpusWorld.getValue(myLoc)<0){
+                                stack.pop();
+                                dude.setMyLoc(stack.peek());
+                            }
+                            else {
+                                dude.moveLeft();
+                            }
+                }
+            }
             wumpusWorld.setVisible(dude.getMyLoc());
             stack.add(dude.getMyLoc());
             score--;
+
         }
         public void handleKeyPresses(){
             if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
